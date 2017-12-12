@@ -9,6 +9,7 @@ import 'vant/lib/vant-css/index.css'
 
 (function(d, w) {
   const doc = d.documentElement;
+
   function rem() {
     const width = Math.min(doc.getBoundingClientRect().width, 768);
     doc.style.fontSize = width / 7.5 + 'px';
@@ -20,6 +21,7 @@ import 'vant/lib/vant-css/index.css'
 Vue.use(Vant)
 
 Vue.config.productionTip = false
+Vue.prototype.axios = axios
 
 /* eslint-disable no-new */
 new Vue({
