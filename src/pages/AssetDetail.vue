@@ -8,43 +8,32 @@
     <van-cell-group>
       <van-cell>
         <div class="goods-title">{{ details.title }}</div>
-        <!-- <div class="goods-price">{{ formatPrice(goods.price) }}</div> -->
       </van-cell>
       <van-cell class="goods-express">
-        <van-col span="14">债券机构：北京xxxxx有限责任公司</van-col>
-        <van-col span="14">债务人（企业）：明广振</van-col>
-        <van-col span="14">保证人（企业）：小贾</van-col>
-        <van-col span="14">抵押人：小贾</van-col>
+        <van-col span="12" v-for="(item, index) in details.parms" :key="index">{{item.name}}：{{item.value}}</van-col>
+        <!-- </van-cell> -->
+        <!-- <van-cell class="goods-express"> -->
+        <van-col span="24" v-for="(item, index) in details.organization" :key="index">{{item.name}}：{{item.value}}</van-col>
       </van-cell>
     </van-cell-group>
     <van-cell-group>
       <van-cell>
         <div class="goods-title">资产亮点</div>
         <van-cell class="goods-express">
-          <van-col span="24">诉讼情况：已经诉讼完毕，请放心购买</van-col>
-          <van-col span="24">资产保全情况：保全的特别好跟新的一样</van-col>
-          <van-col span="24">核心卖点：棒棒棒！！！</van-col>
-          <van-col span="24">周边配套：医院、学校、公交、地铁、飞机、航空母舰</van-col>
-          <van-col span="24">小区介绍：世外桃源，布莱克西</van-col>
+          <van-col span="24" v-for="(item, index) in details.spot" :key="index">{{item.name}}：{{item.value}}</van-col>
         </van-cell>
       </van-cell>
       <van-cell>
         <div class="goods-title">受公理事项</div>
         <van-cell class="goods-express">
-          <van-col span="12">联系人：明广振</van-col>
-          <van-col span="12">联系电话：13311036150</van-col>
-          <van-col span="24">传真：010-8830-3114</van-col>
-          <van-col span="24">通讯地址：北京市朝阳区望京soho-T3-1701</van-col>
+          <van-col span="24" v-for="(item, index) in details.matter" :key="index">{{item.name}}：{{item.value}}</van-col>
         </van-cell>
       </van-cell>
       <van-cell>
         <div class="goods-title">交易对象及声明</div>
         <van-cell class="goods-express">
           <van-col span="24" v-for="(item, index) in details.tranStatement" :key="index">{{item.name}}：{{item.value}}</van-col>
-          <!-- {{getUsers()}} -->
           <van-col span="24">{{ getUsers() }}</van-col>
-          <!-- <van-col span="24">交易对象：须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。须为大陆信用极好的用户。</van-col>
-          <van-col span="24">声明：以上信息纯属虚构，仅供参考。以上信息纯属虚构，仅供参考。以上信息纯属虚构，仅供参考。以上信息纯属虚构，仅供参考。以上信息纯属虚构，仅供参考。以上信息纯属虚构，仅供参考。</van-col> -->
         </van-cell>
       </van-cell>
     </van-cell-group>
@@ -67,9 +56,7 @@ export default {
     return {
       details: {
         title: '华润公园九里，小户型低总价',
-        price: 2680,
-        express: '免运费',
-        remain: 19,
+
         thumb: [
           'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4093669240,825203326&fm=27&gp=0.jpg',
           'http://a3.att.hudong.com/65/07/01300000248343122451075325224.jpg'
@@ -79,7 +66,28 @@ export default {
         ],
         matter: [
           { name: '联系人', value: '明广振' },
-
+          { name: '联系电话', value: '13311036150' },
+          { name: '传真', value: '010-8830-3114' },
+          { name: '通讯地址', value: '北京市朝阳区望京soho-T3-1701' },
+        ],
+        organization: [
+          { name: '债券机构', value: '北京xxxxx有限责任公司' },
+          { name: '债务人（企业）', value: '明广振' },
+          { name: '保证人（企业）', value: '小贾' },
+          { name: '抵押人', value: '小贾' },
+        ],
+        spot: [
+          { name: '诉讼情况', value: '已经诉讼完毕，请放心购买' },
+          { name: '资产保全情况', value: '保全的特别好跟新的一样' },
+          { name: '核心卖点', value: '棒棒棒！！！' },
+          { name: '周边配套', value: '医院、学校、公交、地铁、飞机、航空母舰' },
+          { name: '小区介绍', value: '世外桃源，布莱克西' },
+        ],
+        parms: [
+          { name: '面积', value: '100平米' },
+          { name: '朝向', value: '南北' },
+          { name: '户型', value: '大户型' },
+          { name: '采光', value: '充足充足充足充足' },
         ]
       }
     };
@@ -89,10 +97,10 @@ export default {
       return '¥' + (this.details.price / 100).toFixed(2);
     },
     getUsers() {
-      this.axios.get('/v1/service/query')
+      this.axios.get('http://localhost:8000/assets/asset_detail?id=1')
         .then(response => {
           console.log(response.data.data)
-
+          return response.data.data
         })
         .catch(error => {
           console.log(error)
