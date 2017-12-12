@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  validateStatus (status) {
+  validateStatus(status) {
     return status >= 200 && status <= 500
   },
   timeout: 5000,
